@@ -20,12 +20,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
+    - name: Build DB
+      run: docker compose build
+
+    - name: Create DB
+      run: docker compose up
+
     - name: Build and test
       run: mvn -B clean package
 
