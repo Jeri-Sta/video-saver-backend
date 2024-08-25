@@ -1,9 +1,7 @@
 package br.com.videosaver.video.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
@@ -13,6 +11,9 @@ import java.util.UUID;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "video")
+@EqualsAndHashCode(of = "id")
+@NoArgsConstructor
+@AllArgsConstructor
 public class VideoEntity {
 
     @Id
