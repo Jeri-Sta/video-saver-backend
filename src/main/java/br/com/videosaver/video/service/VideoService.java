@@ -1,6 +1,7 @@
 package br.com.videosaver.video.service;
 
 import br.com.videosaver.infra.exception.bundle.GeneralException;
+import br.com.videosaver.video.model.VideoCreateInput;
 import br.com.videosaver.video.model.VideoEntity;
 import br.com.videosaver.video.model.VideoOutput;
 import br.com.videosaver.video.repository.VideoRepository;
@@ -31,5 +32,11 @@ public class VideoService {
         return repository.findById(id)
                 .map(video -> mapper.map(video, VideoOutput.class))
                 .orElseThrow(() -> new GeneralException("Vídeo não encontrado"));
+    }
+
+    public VideoOutput create(VideoCreateInput input) {
+        VideoEntity videoEntity = mapper.map(input, VideoEntity.class);
+        VideoEntity savedEntity = repository.save(videoEntity);
+        return mapper.map(savedEntity, VideoOutput.class);
     }
 }
