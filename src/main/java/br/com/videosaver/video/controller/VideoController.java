@@ -1,6 +1,6 @@
 package br.com.videosaver.video.controller;
 
-import br.com.videosaver.video.model.VideoCreateInput;
+import br.com.videosaver.video.model.VideoInput;
 import br.com.videosaver.video.model.VideoOutput;
 import br.com.videosaver.video.service.VideoService;
 import jakarta.validation.Valid;
@@ -36,8 +36,15 @@ public class VideoController {
     }
 
     @PostMapping
-    public ResponseEntity<VideoOutput> create(@RequestBody @Valid VideoCreateInput input, UriComponentsBuilder uri) {
+    public ResponseEntity<VideoOutput> create(@RequestBody @Valid VideoInput input, UriComponentsBuilder uri) {
         VideoOutput videoOutput = videoService.create(input);
+        URI address = uri.path("videos/{id}").buildAndExpand(videoOutput.getId()).toUri();
+        return ResponseEntity.created(address).body(videoOutput);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<VideoOutput> update(@RequestBody @Valid VideoInput input, @PathVariable @NotNull UUID id, UriComponentsBuilder uri) {
+        VideoOutput videoOutput = videoService.update(id, input);
         URI address = uri.path("videos/{id}").buildAndExpand(videoOutput.getId()).toUri();
         return ResponseEntity.created(address).body(videoOutput);
     }
