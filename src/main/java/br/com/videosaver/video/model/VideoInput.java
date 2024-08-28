@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
-public class VideoCreateInput {
+public class VideoInput {
 
     @NotBlank
     String title;
