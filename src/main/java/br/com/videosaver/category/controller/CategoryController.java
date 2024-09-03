@@ -5,6 +5,7 @@ import br.com.videosaver.category.model.CategoryOutput;
 import br.com.videosaver.category.service.CategoryService;
 import br.com.videosaver.video.model.VideoInput;
 import br.com.videosaver.video.model.VideoOutput;
+import br.com.videosaver.video.service.VideoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -27,6 +28,7 @@ import java.util.UUID;
 public class CategoryController {
 
     CategoryService categoryService;
+    VideoService videoService;
 
     @GetMapping
     public List<CategoryOutput> listAll() {
@@ -36,6 +38,11 @@ public class CategoryController {
     @GetMapping("/{id}")
     public CategoryOutput retrieve(@PathVariable @NotNull UUID id) {
         return categoryService.retrieve(id);
+    }
+
+    @GetMapping("/{id}/videos")
+    public List<VideoOutput> listVideosByCategory(@PathVariable @NotNull UUID id) {
+        return videoService.listVideosByCategory(id);
     }
 
     @PostMapping
