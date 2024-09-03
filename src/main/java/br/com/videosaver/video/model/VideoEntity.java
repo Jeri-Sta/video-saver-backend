@@ -1,5 +1,6 @@
 package br.com.videosaver.video.model;
 
+import br.com.videosaver.category.model.CategoryEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -25,5 +26,9 @@ public class VideoEntity {
     String description;
 
     String url;
+
+    @ManyToOne
+    @JoinColumn(name = "category", referencedColumnName = "id")
+    CategoryEntity category;
 
 }

@@ -1,5 +1,7 @@
 package br.com.videosaver.video.service;
 
+import br.com.videosaver.category.model.CategoryEntity;
+import br.com.videosaver.category.repository.CategoryRepository;
 import br.com.videosaver.infra.exception.bundle.GeneralException;
 import br.com.videosaver.video.model.VideoInput;
 import br.com.videosaver.video.model.VideoEntity;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class VideoService {
 
     VideoRepository repository;
+    CategoryRepository categoryRepository;
     ModelMapper mapper;
 
     public List<VideoOutput> listAll() {
@@ -36,6 +39,10 @@ public class VideoService {
 
     public VideoOutput create(VideoInput input) {
         VideoEntity videoEntity = mapper.map(input, VideoEntity.class);
+        if (input.getCategory() != null) {
+            CategoryEntity category = categoryRepository.findById(input.getCategory()).orElseThrow(() -> new GeneralException("Categoria não encontrada"));
+            videoEntity.setCategory(category);
+        }
         VideoEntity savedEntity = repository.save(videoEntity);
         return mapper.map(savedEntity, VideoOutput.class);
     }
@@ -45,6 +52,10 @@ public class VideoService {
             throw new GeneralException("Vídeo não encontrado");
         }
         VideoEntity videoEntity = mapper.map(input, VideoEntity.class);
+        if (input.getCategory() != null) {
+            CategoryEntity category = categoryRepository.findById(input.getCategory()).orElseThrow(() -> new GeneralException("Categoria não encontrada"));
+            videoEntity.setCategory(category);
+        }
         videoEntity.setId(id);
         VideoEntity savedEntity = repository.save(videoEntity);
         return mapper.map(savedEntity, VideoOutput.class);
