@@ -1,0 +1,1 @@
+insert into category (id, title, color) values ('d8accddd-8c70-451c-a71f-8881fdd259a8', 'Livre', 'verde');
