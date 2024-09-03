@@ -49,4 +49,11 @@ public class VideoService {
         VideoEntity savedEntity = repository.save(videoEntity);
         return mapper.map(savedEntity, VideoOutput.class);
     }
+
+    public void delete(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new GeneralException("Vídeo não encontrado");
+        }
+        repository.deleteById(id);
+    }
 }
