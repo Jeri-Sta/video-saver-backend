@@ -39,6 +39,11 @@ public class VideoService {
         return videoEntities.stream().map(video -> mapper.map(video, VideoOutput.class)).toList();
     }
 
+    public List<VideoOutput> listByTitle(String search) {
+        List<VideoEntity> videoEntities = repository.findByTitleContaining(search);
+        return videoEntities.stream().map(video -> mapper.map(video, VideoOutput.class)).toList();
+    }
+
     public VideoOutput retrieve(UUID id) {
         return repository.findById(id)
                 .map(video -> mapper.map(video, VideoOutput.class))
