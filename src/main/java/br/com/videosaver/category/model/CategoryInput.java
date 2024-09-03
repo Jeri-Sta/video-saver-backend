@@ -11,8 +11,6 @@ import lombok.experimental.FieldDefaults;
 @Data
 public class CategoryInput {
 
-    @NotBlank
     String title;
-    @NotBlank
     String color;
 }
