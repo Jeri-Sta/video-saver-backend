@@ -52,10 +52,13 @@ public class VideoService {
 
     public VideoOutput create(VideoInput input) {
         VideoEntity videoEntity = mapper.map(input, VideoEntity.class);
+        CategoryEntity category;
         if (input.getCategory() != null) {
-            CategoryEntity category = categoryRepository.findById(input.getCategory()).orElseThrow(() -> new GeneralException("Categoria não encontrada"));
-            videoEntity.setCategory(category);
+            category = categoryRepository.findById(input.getCategory()).orElseThrow(() -> new GeneralException("Categoria não encontrada"));
+        } else {
+            category = categoryRepository.findById(UUID.fromString("d8accddd-8c70-451c-a71f-8881fdd259a8")).get();
         }
+        videoEntity.setCategory(category);
         VideoEntity savedEntity = repository.save(videoEntity);
         return mapper.map(savedEntity, VideoOutput.class);
     }
