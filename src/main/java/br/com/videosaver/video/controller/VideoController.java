@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -47,5 +48,11 @@ public class VideoController {
         VideoOutput videoOutput = videoService.update(id, input);
         URI address = uri.path("videos/{id}").buildAndExpand(videoOutput.getId()).toUri();
         return ResponseEntity.created(address).body(videoOutput);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable @NotNull UUID id) {
+        videoService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
