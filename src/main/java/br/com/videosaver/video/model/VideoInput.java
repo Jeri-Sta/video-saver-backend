@@ -13,11 +13,8 @@ import java.util.UUID;
 @Data
 public class VideoInput {
 
-    @NotBlank
     String title;
-    @NotBlank
     String description;
-    @NotBlank
     String url;
     UUID category;
 }

@@ -5,6 +5,7 @@ import br.com.videosaver.category.model.CategoryInput;
 import br.com.videosaver.category.model.CategoryOutput;
 import br.com.videosaver.category.repository.CategoryRepository;
 import br.com.videosaver.infra.exception.bundle.GeneralException;
+import br.com.videosaver.infra.validation.Validator;
 import br.com.videosaver.video.model.VideoEntity;
 import br.com.videosaver.video.model.VideoInput;
 import br.com.videosaver.video.model.VideoOutput;
@@ -25,6 +26,7 @@ public class CategoryService {
 
     CategoryRepository repository;
     ModelMapper mapper;
+    Validator<CategoryEntity> validator;
 
     public List<CategoryOutput> listAll() {
         List<CategoryEntity> categoryEntities = repository.findAll();
@@ -39,6 +41,7 @@ public class CategoryService {
 
     public CategoryOutput create(CategoryInput input) {
         CategoryEntity categoryEntity = mapper.map(input, CategoryEntity.class);
+        validator.validateFields(categoryEntity);
         CategoryEntity savedEntity = repository.save(categoryEntity);
         return mapper.map(savedEntity, CategoryOutput.class);
     }
@@ -49,6 +52,7 @@ public class CategoryService {
         }
         CategoryEntity categoryEntity = mapper.map(input, CategoryEntity.class);
         categoryEntity.setId(id);
+        validator.validateFields(categoryEntity);
         CategoryEntity savedEntity = repository.save(categoryEntity);
         return mapper.map(savedEntity, CategoryOutput.class);
     }
