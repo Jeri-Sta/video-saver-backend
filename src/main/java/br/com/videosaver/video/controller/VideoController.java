@@ -36,6 +36,11 @@ public class VideoController {
         return videoService.retrieve(id);
     }
 
+    @GetMapping(params = "search")
+    public List<VideoOutput> listByTitle(@RequestParam("search") String search) {
+        return videoService.listByTitle(search);
+    }
+
     @PostMapping
     public ResponseEntity<VideoOutput> create(@RequestBody @Valid VideoInput input, UriComponentsBuilder uri) {
         VideoOutput videoOutput = videoService.create(input);
