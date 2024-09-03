@@ -1,5 +1,6 @@
 package br.com.videosaver.category.model;
 
+import br.com.videosaver.video.model.VideoEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
