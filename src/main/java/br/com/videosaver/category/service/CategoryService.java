@@ -5,6 +5,7 @@ import br.com.videosaver.category.model.CategoryInput;
 import br.com.videosaver.category.model.CategoryOutput;
 import br.com.videosaver.category.repository.CategoryRepository;
 import br.com.videosaver.infra.exception.bundle.GeneralException;
+import br.com.videosaver.infra.utils.GeneralMessages;
 import br.com.videosaver.infra.validation.Validator;
 import br.com.videosaver.video.model.VideoEntity;
 import br.com.videosaver.video.model.VideoInput;
@@ -36,7 +37,7 @@ public class CategoryService {
     public CategoryOutput retrieve(UUID id) {
         return repository.findById(id)
                 .map(category -> mapper.map(category, CategoryOutput.class))
-                .orElseThrow(() -> new GeneralException("Categoria não encontrada"));
+                .orElseThrow(() -> new GeneralException(GeneralMessages.CATEGORY_NOT_FOUND));
     }
 
     public CategoryOutput create(CategoryInput input) {
@@ -48,7 +49,7 @@ public class CategoryService {
 
     public CategoryOutput update(UUID id, CategoryInput input) {
         if (!repository.existsById(id)) {
-            throw new GeneralException("Categoria não encontrada");
+            throw new GeneralException(GeneralMessages.CATEGORY_NOT_FOUND);
         }
         CategoryEntity categoryEntity = mapper.map(input, CategoryEntity.class);
         categoryEntity.setId(id);
@@ -59,7 +60,7 @@ public class CategoryService {
 
     public void delete(UUID id) {
         if (!repository.existsById(id)) {
-            throw new GeneralException("Categoria não encontrada");
+            throw new GeneralException(GeneralMessages.CATEGORY_NOT_FOUND);
         }
         repository.deleteById(id);
     }

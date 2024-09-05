@@ -3,6 +3,7 @@ package br.com.videosaver.video.service;
 import br.com.videosaver.category.model.CategoryEntity;
 import br.com.videosaver.category.repository.CategoryRepository;
 import br.com.videosaver.infra.exception.bundle.GeneralException;
+import br.com.videosaver.infra.utils.GeneralMessages;
 import br.com.videosaver.video.model.VideoInput;
 import br.com.videosaver.video.model.VideoEntity;
 import br.com.videosaver.video.model.VideoOutput;
@@ -33,7 +34,7 @@ public class VideoService {
 
     public List<VideoOutput> listVideosByCategory(UUID categoryId) {
         if (!categoryRepository.existsById(categoryId)) {
-            throw new GeneralException("Categoria não encontrada");
+            throw new GeneralException(GeneralMessages.CATEGORY_NOT_FOUND);
         }
         List<VideoEntity> videoEntities = repository.findByCategoryId(categoryId);
         return videoEntities.stream().map(video -> mapper.map(video, VideoOutput.class)).toList();
@@ -47,14 +48,14 @@ public class VideoService {
     public VideoOutput retrieve(UUID id) {
         return repository.findById(id)
                 .map(video -> mapper.map(video, VideoOutput.class))
-                .orElseThrow(() -> new GeneralException("Vídeo não encontrado"));
+                .orElseThrow(() -> new GeneralException(GeneralMessages.VIDEO_NOT_FOUND));
     }
 
     public VideoOutput create(VideoInput input) {
         VideoEntity videoEntity = mapper.map(input, VideoEntity.class);
         CategoryEntity category;
         if (input.getCategory() != null) {
-            category = categoryRepository.findById(input.getCategory()).orElseThrow(() -> new GeneralException("Categoria não encontrada"));
+            category = categoryRepository.findById(input.getCategory()).orElseThrow(() -> new GeneralException(GeneralMessages.CATEGORY_NOT_FOUND));
         } else {
             category = categoryRepository.findById(UUID.fromString("d8accddd-8c70-451c-a71f-8881fdd259a8")).get();
         }
@@ -65,11 +66,11 @@ public class VideoService {
 
     public VideoOutput update(UUID id, VideoInput input) {
         if (!repository.existsById(id)) {
-            throw new GeneralException("Vídeo não encontrado");
+            throw new GeneralException(GeneralMessages.VIDEO_NOT_FOUND);
         }
         VideoEntity videoEntity = mapper.map(input, VideoEntity.class);
         if (input.getCategory() != null) {
-            CategoryEntity category = categoryRepository.findById(input.getCategory()).orElseThrow(() -> new GeneralException("Categoria não encontrada"));
+            CategoryEntity category = categoryRepository.findById(input.getCategory()).orElseThrow(() -> new GeneralException(GeneralMessages.CATEGORY_NOT_FOUND));
             videoEntity.setCategory(category);
         }
         videoEntity.setId(id);
@@ -79,7 +80,7 @@ public class VideoService {
 
     public void delete(UUID id) {
         if (!repository.existsById(id)) {
-            throw new GeneralException("Vídeo não encontrado");
+            throw new GeneralException(GeneralMessages.VIDEO_NOT_FOUND);
         }
         repository.deleteById(id);
     }
