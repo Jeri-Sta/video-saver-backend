@@ -1,6 +1,5 @@
 package br.com.videosaver.video.model;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;

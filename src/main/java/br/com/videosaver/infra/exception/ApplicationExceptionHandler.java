@@ -13,6 +13,6 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler(GeneralException.class)
     public ResponseEntity<DefaultErrorDto> handleException(Exception e) {
         DefaultErrorDto error = new DefaultErrorDto(HttpStatus.BAD_REQUEST.toString(), e.getMessage());
-        return new ResponseEntity<DefaultErrorDto>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
